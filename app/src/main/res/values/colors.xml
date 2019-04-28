@@ -1,0 +1,21 @@
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorYellow">#EEDF3E</color>
+    <color name="colorOrange">#F3753A</color>
+    <color name="colorPink">#F69FA8</color>
+    <color name="colorRed">#DA3F3A</color>
+    <color name="colorBrown">#88563F</color>
+    <color name="colorYellowGreen">#8EC96D</color>
+    <color name="colorGreen">#007644</color>
+    <color name="colorBlueGreen">#01787C</color>
+    <color name="colorBlue">#3871A6</color>
+    <color name="colorSodomy">#2A365C</color>
+    <color name="colorReddishPurple">#801F52</color>
+    <color name="colorPurple">#764E82</color>
+    <color name="colorGray">#868789</color>
+    <color name="colorBlack">#2A3235</color>
+    <color name="colorTransparency">#FFFFFF</color>
+</resources>
