@@ -7,6 +7,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- fragament_shape_product -->
+    <string name="cameraBtn">캡처</string>
+
     <string name="identificationFront">식별표시 앞</string>
     <string name="identificationBack">식별표시 뒤</string>
     <string name="identificationSearchHint">영문,한글,숫자</string>

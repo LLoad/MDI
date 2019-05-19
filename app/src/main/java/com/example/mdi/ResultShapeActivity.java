@@ -19,8 +19,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
@@ -42,11 +45,6 @@ public class ResultShapeActivity extends AppCompatActivity {
 
     private String SEARCH_URL = Common.SEARCH_URL;
     private String SEARCH_SHAPE = Common.SEARCH_SHAPE;
-    private String PARAM_FRONT = Common.PARAM_FRONT;
-    private String PARAM_BACK = Common.PARAM_BACK;
-    private String PARAM_TYPE = Common.PARAM_TYPE;
-    private String PARAM_SHAPE = Common.PARAM_SHAPE;
-    private String PARAM_COLOR = Common.PARAM_COLOR;
     private String REQUEST_URL;
     ListView listview;
 
@@ -71,15 +69,8 @@ public class ResultShapeActivity extends AppCompatActivity {
         intentDrugShape = intent.getStringExtra("shape");
         intentDrugColor = intent.getStringExtra("color");
 
-        try {
-            REQUEST_URL = SEARCH_URL + SEARCH_SHAPE + PARAM_TYPE + URLEncoder.encode(intentDrugType, "utf-8")
-                    + "&" + PARAM_SHAPE + URLEncoder.encode(intentDrugShape, "utf-8")
-                    + "&" + PARAM_COLOR + URLEncoder.encode(intentDrugColor, "utf-8");
-                    //+ " AND " + PARAM_FRONT + URLEncoder.encode(intentDrugFront, "utf-8")
-                    //+ " AND " + PARAM_BACK + URLEncoder.encode(intentDrugBack, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        REQUEST_URL = SEARCH_URL + SEARCH_SHAPE;
+
         listview = (ListView) findViewById(R.id.shapeListView);
 
         progressDialog = new ProgressDialog(ResultShapeActivity.this);
@@ -141,19 +132,33 @@ public class ResultShapeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(REQUEST_URL);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.accumulate("drugType", intentDrugType);
+                    jsonObject.accumulate("drugShape", intentDrugShape);
+                    jsonObject.accumulate("drugColor", intentDrugColor);
+                    jsonObject.accumulate("drugFrontText", intentDrugFront);
+                    jsonObject.accumulate("drugBackText", intentDrugBack);
 
-                    httpURLConnection.setRequestMethod("GET");
+                    URL url = new URL(REQUEST_URL);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setRequestProperty("Cache-Control", "no-cache");
+                    httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                    httpURLConnection.setRequestProperty("Accept", "text/html");
                     httpURLConnection.setDoOutput(true);
                     httpURLConnection.setDoInput(true);
-                    httpURLConnection.setUseCaches(false);
-                    httpURLConnection.setDefaultUseCaches(false);
+                    httpURLConnection.connect();
+
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                    bufferedWriter.write(jsonObject.toString());
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
 
                     int responseStatusCode = httpURLConnection.getResponseCode();
 
                     InputStream inputStream;
-                    if(responseStatusCode == HttpURLConnection.HTTP_OK) inputStream = httpURLConnection.getInputStream();
+                    if (responseStatusCode == HttpURLConnection.HTTP_OK) inputStream = httpURLConnection.getInputStream();
                     else inputStream = httpURLConnection.getErrorStream();
 
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
