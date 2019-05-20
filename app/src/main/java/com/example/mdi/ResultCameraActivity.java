@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -45,6 +46,14 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import com.example.mdi.databinding.ActivityResultCameraBinding;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 public class ResultCameraActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
@@ -175,11 +184,9 @@ public class ResultCameraActivity extends AppCompatActivity {
                 try {
                     URL url = new URL(REQUEST_URL);
 
-                    File location = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +"camtest");
+                    File location = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +"camtest" + File.separator + Common.FILE_NAME);
 
-                    File file = new File(location, Common.FILE_NAME);
-
-                    Bitmap bitmap = decodeFile(1000, file.getPath());
+                    Bitmap bitmap = BitmapFactory.decodeFile(location.getPath());
 
                     String bitmapString = getStringFromBitmap(bitmap);
 
@@ -295,5 +302,26 @@ public class ResultCameraActivity extends AppCompatActivity {
         byte[] b = byteArrayOutputStream.toByteArray();
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
         return encodedImage;
+    }
+
+    private void uploadFile() {
+        String url = REQUEST_URL;
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .build();
+
+        NetworkService service = retrofit.create(NetworkService.class);
+
+        File photo = new File(Environment.getExternalStorageDirectory()
+                .getAbsolutePath() + File.separator + "camtest" + File.separator + Common.FILE_NAME);
+
+        RequestBody photoBody = RequestBody.create(MediaType.parse("image/jpg"), photo);
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("picture", photo.getName(), photoBody);
+
+        RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"));
+
+        Call<ResponseBody> call = service.upload(body, );
     }
 }
