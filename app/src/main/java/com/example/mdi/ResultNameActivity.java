@@ -40,7 +40,6 @@ public class ResultNameActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    String result;
     Intent intent = new Intent();
     DrugAdapter drugAdapter;
     Context context;
@@ -79,17 +78,19 @@ public class ResultNameActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ResultDetailActivity.class);
 
-                intent.putExtra("drugId", drugList.get(position).getDrug_id());
                 intent.putExtra("drugName", drugList.get(position).getDrug_name());
                 intent.putExtra("drugImage", drugList.get(position).getDrug_image());
                 intent.putExtra("drugType", drugList.get(position).getDrug_type());
                 intent.putExtra("drugShape", drugList.get(position).getDrug_shape());
-                intent.putExtra("drugColor", drugList.get(position).getDrug_color());
+                intent.putExtra("drugFrontColor", drugList.get(position).getDrug_frontColor());
+                intent.putExtra("drugBackColor", drugList.get(position).getDrug_backColor());
                 intent.putExtra("drugFrontText", drugList.get(position).getDrug_frontText());
                 intent.putExtra("drugBackText", drugList.get(position).getDrug_backText());
+                intent.putExtra("drugLongSize", drugList.get(position).getDrug_longSize());
+                intent.putExtra("drugShortSize", drugList.get(position).getDrug_shortSize());
+                intent.putExtra("drugTemper", drugList.get(position).getDrug_temper());
 
                 startActivity(intent);
-
             }
         });
     }
@@ -127,6 +128,7 @@ public class ResultNameActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                String result = "";
                 try {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.accumulate("drugName", intentDrugName);
@@ -180,18 +182,28 @@ public class ResultNameActivity extends AppCompatActivity {
         if (jsonString == null) return false;
 
         try {
-            JSONArray jsonArray = new JSONArray(result);
+            JSONArray jsonArray = new JSONArray(jsonString);
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String j_drugId = jsonObject.getString("drugId");
-                String j_drugName = jsonObject.getString("drugName");
-                String j_drugImage = jsonObject.getString("drugImage");
-                String j_drugType = jsonObject.getString("drugType");
-                String j_drugShape = jsonObject.getString("drugShape");
-                String j_drugColor = jsonObject.getString("drugColor");
-                String j_drugFrontText = jsonObject.getString("drugFrontText");
-                String j_drugBackText = jsonObject.getString("drugBackText");
+                String j_drugName = jsonObject.getString("ITEMNAME");
+                String j_drugImage = jsonObject.getString("LARGEIMG");
+                String j_drugType = jsonObject.getString("REFINING");
+                String j_drugShape = jsonObject.getString("ITEMSHAPE");
+                String j_drugTemper = jsonObject.getString("TEMPER");
+                String j_drugFrontColor = jsonObject.getString("FRONTCOLOR");
+                String j_drugBackColor = jsonObject.getString("BACKCOLOR");
+                String j_drugFrontMark = jsonObject.getString("FRONTMARK");
+                String j_drugBackMark = jsonObject.getString("BACKMARK");
+                String j_drugFrontContent = jsonObject.getString("FRONTCONTENT");
+                String j_drugBackContent = jsonObject.getString("BACKCONTENT");
+                String j_drugFrontCode = jsonObject.getString("FRONTCODE");
+                String j_drugBackCode = jsonObject.getString("BACKCODE");
+                String j_drugLongSize = jsonObject.getString("LONGSIZE");
+                String j_drugShortSize = jsonObject.getString("SHORTSIZE");
+
+                String j_drugFrontText = j_drugFrontMark + j_drugFrontContent + j_drugFrontCode;
+                String j_drugBackText = j_drugBackMark + j_drugBackContent + j_drugBackCode;
 
                 URL url = new URL(j_drugImage);
 
@@ -201,7 +213,8 @@ public class ResultNameActivity extends AppCompatActivity {
                 Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
                 bufferedInputStream.close();
 
-                Drug drug = new Drug(j_drugId, j_drugName, j_drugImage, bitmap, j_drugType, j_drugShape, j_drugColor, j_drugFrontText, j_drugBackText);
+                Drug drug = new Drug(j_drugName, j_drugImage, bitmap, j_drugType, j_drugShape, j_drugTemper, j_drugFrontColor,
+                        j_drugBackColor, j_drugFrontText, j_drugBackText, j_drugLongSize, j_drugShortSize);
                 drugList.add(drug);
 
                 runOnUiThread(new Runnable() {

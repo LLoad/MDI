@@ -63,9 +63,14 @@
     <string name="shape_fragment">모양파트</string>
     <string name="name_fragment">이름파트</string>
 
-    <string name="detailType">타입</string>
+    <string name="detailType">제형</string>
     <string name="detailColor">색깔</string>
     <string name="detailShape">모양</string>
-    <string name="detailFrontText">앞식별표시</string>
-    <string name="detailBackText">뒷식별표시</string>
+    <string name="detailFront">앞</string>
+    <string name="detailBack">뒤</string>
+    <string name="detailText">식별표시</string>
+    <string name="detailSize">사이즈(mm)</string>
+    <string name="detailLargeSize">장축</string>
+    <string name="detailShortSize">단축</string>
+    <string name="detailTemper">성상</string>
 </resources>

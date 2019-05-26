@@ -57,8 +57,9 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
         setMeasuredDimension(width, height);
 
-        if(mSupportedPreviewSizes != null)
+        if(mSupportedPreviewSizes != null) {
             mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
+        }
     }
 
     @Override
@@ -71,6 +72,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         Camera.getCameraInfo(mCameraID, cameraInfo);
+
 
         mCameraInfo = cameraInfo;
         mDisplayOrientation = mFragment.getActivity().getWindowManager().getDefaultDisplay().getRotation();
@@ -92,6 +94,13 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
         try {
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
+
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+
+                }
+            });
             isPreview = true;
             Log.d("", "Camera preview started.");
         } catch (IOException e) {

@@ -44,86 +44,209 @@
             android:textAlignment="center"
             android:textStyle="bold"
             android:textSize="36dp"
-            android:text="aass" />
+            android:text="이름" />
         <ImageView
             android:id="@+id/detailImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/detailType"
             android:textSize="20dp"
             android:textColor="@android:color/holo_blue_light"/>
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/detailType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aaaa"
+            android:text="제형"
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginLeft="40dp"/>
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/detailTemper"
+            android:textSize="20dp"
+            android:textColor="@android:color/holo_blue_light"/>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/detailTemper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="성상"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="40dp"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/detailColor"
             android:textSize="20dp"
             android:textColor="@android:color/holo_blue_light"/>
-        <TextView
-            android:id="@+id/detailColor"
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="asdb"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="40dp"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailFront"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+                android:textColor="@android:color/holo_blue_light"/>
+
+            <TextView
+                android:id="@+id/detailFrontColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앞색깔"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailBack"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+                android:textColor="@android:color/holo_blue_light"/>
+
+            <TextView
+                android:id="@+id/detailBackColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="뒷색깔"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"/>
+        </LinearLayout>
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/detailShape"
             android:textSize="20dp"
             android:textColor="@android:color/holo_blue_light"/>
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/detailShape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aaaa"
+            android:text="모양"
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginLeft="40dp"/>
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/detailFrontText"
+            android:text="@string/detailText"
             android:textSize="20dp"
             android:textColor="@android:color/holo_blue_light"/>
-        <TextView
-            android:id="@+id/detailFrontText"
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1111"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="40dp"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailFront"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+                android:textColor="@android:color/holo_blue_light"/>
+
+            <TextView
+                android:id="@+id/detailFrontText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앞식별표시"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailBack"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+                android:textColor="@android:color/holo_blue_light"/>
+
+            <TextView
+                android:id="@+id/detailBackText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="뒷식별표시"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"/>
+        </LinearLayout>
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/detailBackText"
+            android:text="@string/detailSize"
             android:textSize="20dp"
             android:textColor="@android:color/holo_blue_light"/>
-        <TextView
-            android:id="@+id/detailBackText"
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailLargeSize"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+                android:textColor="@android:color/holo_blue_light"/>
+
+            <TextView
+                android:id="@+id/detailLongSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장축"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detailShortSize"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+                android:textColor="@android:color/holo_blue_light"/>
+
+            <TextView
+            android:id="@+id/detailShortSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1111"
+            android:text="단축"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginLeft="40dp"/>
+            android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+
     </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -171,19 +171,19 @@ public class ShapeProductFragment extends Fragment implements CompoundButton.OnC
             switch (buttonView.getId()) {
                 case R.id.refinementType:
                     if(!refinementType.isChecked()) { type = ""; refinementType.setChecked(false); }
-                    else { type = "정제"; refinementType.setChecked(true); }
+                    else { type = "정"; refinementType.setChecked(true); }
 
                     hardCapsuleType.setChecked(false);  softCapsuleType.setChecked(false);
                     break;
                 case R.id.hardCapsuleType:
                     if(!hardCapsuleType.isChecked()) { type = ""; hardCapsuleType.setChecked(false); }
-                    else { type = "경질캡슐"; hardCapsuleType.setChecked(true); }
+                    else { type = "경질"; hardCapsuleType.setChecked(true); }
 
                     refinementType.setChecked(false);   softCapsuleType.setChecked(false);
                     break;
                 case R.id.softCapsuleType:
                     if(!softCapsuleType.isChecked()) { type = ""; softCapsuleType.setChecked(false); }
-                    else { type = "연질캡슐"; softCapsuleType.setChecked(true); }
+                    else { type = "연질"; softCapsuleType.setChecked(true); }
 
                     refinementType.setChecked(false);   hardCapsuleType.setChecked(false);
                     break;

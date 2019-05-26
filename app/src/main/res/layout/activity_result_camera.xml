@@ -37,9 +37,9 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:id="@+id/drugCount"
+            android:id="@+id/recyclerCount"
             android:scrollbars="horizontal"
-            android:divider="@color/colorPrimary"
+            android:orientation="horizontal"
             android:layout_below="@id/camera_image"
             android:choiceMode="singleChoice"/>
 
@@ -47,11 +47,11 @@
             android:id="@+id/imageListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/drugCount"
+            android:layout_below="@+id/recyclerCount"
             android:layout_marginTop="0dp"
             android:choiceMode="singleChoice"
             android:divider="@color/colorPrimary"
-            android:dividerHeight="1.5dp"/>
+            android:dividerHeight="2dp"/>
 
     </RelativeLayout>
 </layout>

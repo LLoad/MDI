@@ -16,10 +16,14 @@ public class ResultDetailActivity extends AppCompatActivity {
 
     TextView detailName;
     TextView detailType;
-    TextView detailColor;
+    TextView detailTemper;
+    TextView detailFrontColor;
+    TextView detailBackColor;
     TextView detailShape;
     TextView detailFrontText;
     TextView detailBackText;
+    TextView detailLongSize;
+    TextView detailShortSize;
     ImageView detailImage;
 
     @Override
@@ -29,24 +33,31 @@ public class ResultDetailActivity extends AppCompatActivity {
 
         detailName = (TextView)findViewById(R.id.detailName);
         detailType = (TextView)findViewById(R.id.detailType);
-        detailColor = (TextView)findViewById(R.id.detailColor);
+        detailTemper = (TextView)findViewById(R.id.detailTemper);
         detailShape = (TextView)findViewById(R.id.detailShape);
+        detailFrontColor = (TextView)findViewById(R.id.detailFrontColor);
+        detailBackColor = (TextView)findViewById(R.id.detailBackColor);
         detailFrontText = (TextView)findViewById(R.id.detailFrontText);
         detailBackText = (TextView)findViewById(R.id.detailBackText);
+        detailLongSize = (TextView)findViewById(R.id.detailLongSize);
+        detailShortSize = (TextView)findViewById(R.id.detailShortSize);
         detailImage = (ImageView)findViewById(R.id.detailImage);
 
         Intent intent = getIntent();
 
-        String drugId = intent.getStringExtra("drugId");
         String drugName = intent.getStringExtra("drugName");
         String drugImage = intent.getStringExtra("drugImage");
         String drugType = intent.getStringExtra("drugType");
+        String drugTemper = intent.getStringExtra("drugTemper");
         String drugShape = intent.getStringExtra("drugShape");
-        String drugColor = intent.getStringExtra("drugColor");
+        String drugFrontColor = intent.getStringExtra("drugFrontColor");
+        String drugBackColor = intent.getStringExtra("drugBackColor");
         String drugFrontText = intent.getStringExtra("drugFrontText");
         String drugBackText = intent.getStringExtra("drugBackText");
+        String drugLongSize = intent.getStringExtra("drugLongSize");
+        String drugShortSize = intent.getStringExtra("drugShortSize");
 
-        Drug drug = new Drug(drugId, drugName, drugImage, drugType, drugShape, drugColor, drugFrontText, drugBackText);
+        Drug drug = new Drug(drugName, drugImage, drugType,drugShape, drugTemper, drugFrontColor, drugBackColor, drugFrontText, drugBackText, drugLongSize, drugShortSize);
 
         setThread(drug);
     }
@@ -71,10 +82,14 @@ public class ResultDetailActivity extends AppCompatActivity {
                             detailImage.setImageBitmap(bitmap);
                             detailName.setText(drug.getDrug_name());
                             detailType.setText(drug.getDrug_type());
-                            detailColor.setText(drug.getDrug_color());
+                            detailFrontColor.setText(drug.getDrug_frontColor());
+                            detailBackColor.setText(drug.getDrug_backColor());
                             detailShape.setText(drug.getDrug_shape());
+                            detailTemper.setText(drug.getDrug_temper());
                             detailFrontText.setText(drug.getDrug_frontText());
                             detailBackText.setText(drug.getDrug_backText());
+                            detailLongSize.setText(drug.getDrug_longSize());
+                            detailShortSize.setText(drug.getDrug_shortSize());
                         }
                     });
 
