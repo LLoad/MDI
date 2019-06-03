@@ -1,5 +1,6 @@
 package com.example.mdi;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,15 +11,17 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.databinding.DataBindingUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,7 +42,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-
 public class ResultCameraActivity extends AppCompatActivity implements RecyclerAdapter.ItemClickListener {
     private ProgressDialog progressDialog;
 
@@ -49,6 +51,9 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
     int recyclerItem = 0;
     DrugAdapter drugAdapter;
     Context context;
+    String front;
+    String back;
+    boolean click = false;
 
     private ArrayList<ArrayList<Drug>> drugList = new ArrayList<>();
     private ArrayList<Drug> drugs = new ArrayList<>();
@@ -126,13 +131,15 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position) throws InterruptedException {
         if(recyclerItem != position) {
             progressDialog = new ProgressDialog(ResultCameraActivity.this);
             progressDialog.setMessage("Please wait.....");
             progressDialog.show();
             recyclerItem = position;
-            if(!visiting.get(recyclerItem)) getJSONToDrugs(recyclerItem);
+            if(!visiting.get(recyclerItem)) {
+                getJSONToDrugs(recyclerItem);
+            }
             else setListView();
         }
 
@@ -164,34 +171,34 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
         }
     }
 
-
     public void getJSON() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String result = "";
+            String result = "";
                 try {
                     URL url = new URL(SEARCH_URL+SEARCH_CAMERA);
 
-                    File location = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +"camtest");
+                    Thread.sleep(1000);
 
+                    File location = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +"camtest");
                     File file = new File(location, Common.FILE_NAME);
 
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 5;
+                    options.inSampleSize = 4;
 
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getPath(), options);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
-
-                    byte[] image = byteArrayOutputStream.toByteArray();
-                    String imageBase64 = Base64.encodeToString(image, Base64.DEFAULT);
+                    byte[] ba = byteArrayOutputStream.toByteArray();
+                    String imageBase64 = Base64.encodeToString(ba, 0);
 
                     Log.d("imageBase64", imageBase64);
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.accumulate("drugImage", imageBase64);
+
                     jsonObject.accumulate("uid", Common.uniqueId);
 
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -231,16 +238,12 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
                     e.printStackTrace();
                 }
                 if(jsonParser(result)) {
-                    getJSONToDrugs(0);
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             setRecyclerView();
-                            drugAdapter = new DrugAdapter(context, drugList.get(0), listview);
-                            listview.setAdapter(drugAdapter);
-                            //Message message = mHandler.obtainMessage(Common.LOAD_SUCCESS, result);
-                            //mHandler.sendMessage(message);
+                            progressDialog.dismiss();
                         }
                     });
                 }
@@ -256,8 +259,8 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
             c = c.replace("\\", "");
             JSONObject root = new JSONObject(c);
 
-            String dc = root.getString("drugCount");
-            count = Integer.parseInt(dc);
+            int dc = root.getInt("drugCount");
+            count = dc;
 
             for(int i = 0; i < count; i++) {
                 drugList.add(new ArrayList<Drug>());
@@ -266,8 +269,14 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
 
             String img = root.getString("image");
             byte[] image = Base64.decode(img, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-            imageview.setImageBitmap(bitmap);
+            final Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageview.setImageBitmap(bitmap);
+                }
+            });
 
             JSONArray jsonArray = root.getJSONArray("drugs");
             for(int i = 0; i < jsonArray.length(); i++) {
@@ -275,10 +284,9 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
                 String j_drugShape = jsonObject.getString("ITEMSHAPE");
                 String j_drugFrontColor = jsonObject.getString("FRONTCOLOR");
                 String j_drugBackColor = jsonObject.getString("BACKCOLOR");
-                String j_drugFrontMark = jsonObject.getString("FRONTMARK");
                 String j_drugRatio = jsonObject.getString("RATIO");
 
-                Drug drug = new Drug(j_drugShape, j_drugFrontColor, j_drugBackColor, j_drugFrontMark, j_drugRatio);
+                Drug drug = new Drug(j_drugShape, j_drugFrontColor, j_drugBackColor, j_drugRatio);
                 drugs.add(drug);
             }
             return true;
@@ -300,7 +308,8 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
                     jsonObject.accumulate("drugShape", drugs.get(drugIndex).getDrug_shape());
                     jsonObject.accumulate("drugFrontColor", drugs.get(drugIndex).getDrug_frontColor());
                     jsonObject.accumulate("drugBackColor", drugs.get(drugIndex).getDrug_backColor());
-                    jsonObject.accumulate("drugFrontText", drugs.get(drugIndex).getDrug_frontText());
+                    jsonObject.accumulate("drugFrontText", "");
+                    jsonObject.accumulate("drugBackText", "");
                     jsonObject.accumulate("drugRatio", drugs.get(drugIndex).getDrug_ratio());
 
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -401,5 +410,37 @@ public class ResultCameraActivity extends AppCompatActivity implements RecyclerA
             e.printStackTrace();
         }
         return false;
+    }
+
+    void show() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.edit_drug_text, null);
+        builder.setView(view);
+        Button OK = (Button)view.findViewById(R.id.buttonOk);
+        Button cancel = (Button)view.findViewById(R.id.buttonCancel);
+        final EditText frontText = (EditText)view.findViewById(R.id.editTextFrontText);
+        final EditText backText = (EditText)view.findViewById(R.id.editTextBackText);
+
+        final AlertDialog dialog = builder.create();
+        OK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    front = frontText.getText().toString();
+                    back = backText.getText().toString();
+                    dialog.dismiss();
+                    frontText.setText(""); backText.setText("");
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                front = "";
+                back = "";
+                dialog.dismiss();
+                frontText.setText(""); backText.setText("");
+            }
+        });
+        dialog.show();
     }
 }

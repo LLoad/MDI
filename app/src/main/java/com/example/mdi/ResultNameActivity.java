@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.util.Output;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,18 +20,14 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class ResultNameActivity extends AppCompatActivity {
@@ -43,8 +37,10 @@ public class ResultNameActivity extends AppCompatActivity {
     Intent intent = new Intent();
     DrugAdapter drugAdapter;
     Context context;
+    int listCount = 0;
 
     private ArrayList<Drug> drugList = new ArrayList<Drug>();
+    private ArrayList<Drug> currentList = new ArrayList<>();
 
     private String SEARCH_URL = Common.SEARCH_URL;
     private String SEARCH_NAME = Common.SEARCH_NAME;
@@ -220,10 +216,16 @@ public class ResultNameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        drugAdapter = new DrugAdapter(context, drugList, listview);
 
-                        listview.setAdapter(drugAdapter);
+                        if(listCount < 10) {
+                            currentList.add(drugList.get(listCount++));
+
+                            drugAdapter = new DrugAdapter(context, currentList, listview);
+
+                            listview.setAdapter(drugAdapter);
+                        }
                     }
+
                 });
             }
             return true;

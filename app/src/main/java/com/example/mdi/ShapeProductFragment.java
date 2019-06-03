@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -26,6 +28,10 @@ public class ShapeProductFragment extends Fragment implements CompoundButton.OnC
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    ArrayList<CheckBox> typeCheckBoxes = new ArrayList<>();
+    ArrayList<CheckBox> shapeCheckBoxes = new ArrayList<>();
+    ArrayList<CheckBox> colorCheckBoxes = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -79,7 +85,6 @@ public class ShapeProductFragment extends Fragment implements CompoundButton.OnC
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_shape_product, container, false);
-
 
         identificationFrontText = (EditText) v.findViewById(R.id.identificationFrontText);
         identificationBackText = (EditText) v.findViewById(R.id.identificationBackText);
@@ -189,7 +194,7 @@ public class ShapeProductFragment extends Fragment implements CompoundButton.OnC
                     break;
 
 
-                case R.id.circleShape:
+                    case R.id.circleShape:
                     if(!circleShape.isChecked()) { shape = ""; circleShape.setChecked(false); }
                     else { shape = "원형"; circleShape.setChecked(true); }
 
@@ -199,7 +204,7 @@ public class ShapeProductFragment extends Fragment implements CompoundButton.OnC
                     break;
                 case R.id.ellipseShape:
                     if(!ellipseShape.isChecked()) { shape = ""; ellipseShape.setChecked(false); }
-                    else { shape = "타원"; ellipseShape.setChecked(true); }
+                    else { shape = "타원형"; ellipseShape.setChecked(true); }
 
                     circleShape.setChecked(false);      rectangleShape.setChecked(false);       semiCircularShape.setChecked(false);    rhombusShape.setChecked(false);
                     triangleShape.setChecked(false);    quadrangleShape.setChecked(false);      pentagonShape.setChecked(false);        hexagonShape.setChecked(false);

@@ -93,7 +93,7 @@
                 android:button="@android:color/transparent"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:background="@drawable/rectangle_border_radiobutton"/>
+                android:background="@drawable/rectangle_border_radiobutton" />
 
             <CheckBox
                 android:layout_width="0dp"
@@ -103,7 +103,7 @@
                 android:button="@android:color/transparent"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:background="@drawable/rectangle_border_radiobutton"/>
+                android:background="@drawable/rectangle_border_radiobutton" />
 
             <CheckBox
                 android:layout_width="0dp"
@@ -113,7 +113,7 @@
                 android:button="@android:color/transparent"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:background="@drawable/rectangle_border_radiobutton"/>
+                android:background="@drawable/rectangle_border_radiobutton" />
 
 
         </LinearLayout>

@@ -49,7 +49,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
 
         @Override
         public void onClick(View v) {
-            if(mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());
+            if(mClickListener != null) {
+                try {
+                    mClickListener.onItemClick(v, getAdapterPosition());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -60,7 +66,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position) throws InterruptedException;
     }
 
 }

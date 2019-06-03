@@ -65,7 +65,7 @@ public class Drug {
         this.drug_shortSize = drug_shortSize;
         this.drug_ratio = null;
     }
-    public Drug(String drug_shape, String drug_frontColor, String drug_backColor, String drug_frontText, String drug_ratio) {
+    public Drug(String drug_shape, String drug_frontColor, String drug_backColor, String drug_ratio) {
         this.drug_name = null;
         this.drug_image = null;
         this.drug_image_bitmap = null;
@@ -74,7 +74,7 @@ public class Drug {
         this.drug_temper = null;
         this.drug_frontColor = drug_frontColor;
         this.drug_backColor = drug_backColor;
-        this.drug_frontText = drug_frontText;
+        this.drug_frontText = null;
         this.drug_backText = null;
         this.drug_longSize = null;
         this.drug_shortSize = null;
